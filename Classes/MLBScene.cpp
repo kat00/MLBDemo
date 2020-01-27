@@ -209,16 +209,7 @@ void MLBScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
             {
                 ScaleScoreBoard(loc, 1.0f);
                 
-                
                 MoveItems(WIDTH_PAD * -1.0f);
-                for(auto item : mScores)
-                {
-                    //Vec2 pos = item->getPosition();
-                    //pos.x -= WIDTH_PAD;
-                    //item->setPosition(pos);
-                }
-                
-                //mScores[mItem]->setScale(1.5f);
                 
                 ScaleScoreBoard(mItem, 1.5f);
                 UpdateLabels();
@@ -239,17 +230,8 @@ void MLBScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
             if( loc != mItem)
             {
                 ScaleScoreBoard(loc, 1.0f);
-                //mScores[loc]->setScale(1.0f);
                 
                 MoveItems(WIDTH_PAD);
-                for(auto item : mScores)
-                {
-                    //Vec2 pos = item->getPosition();
-                    //pos.x += WIDTH_PAD;
-                    //item->setPosition(pos);
-                }
-                
-                //mScores[mItem]->setScale(1.5f);
                 
                 ScaleScoreBoard(mItem, 1.5f);
                 UpdateLabels();
@@ -323,7 +305,6 @@ void MLBScene::QueryData()
         //Label* text = AddGame(home, away, mQuery->GetHomeScore(x), mQuery->GetAwayScore(x));
         float offsetx = mVisibleSize.width / 2 + mOrigin.x + ( x * WIDTH_PAD) - 90;
         float offsety = mVisibleSize.height/2 + mOrigin.y;
-        //text->setPosition(Vec2(offsetx, offsety));
         
         ScoreBoard item;
         AddGame(item, mQuery->GetHomeTeamID(x), mQuery->GetAwayTeamID(x), mQuery->GetHomeScore(x), mQuery->GetAwayScore(x));
@@ -521,31 +502,4 @@ void MLBScene::ShowInfoScreen()
     this->addChild(mView);
 }
 
-
-/*ui::Layout* MLBScene::AddGame(const char* home, const char* away, int homescore, int awayscore )
-{
-    ui::Layout* layout = ui::Layout::create();
-    layout->setSize(Size(200,200));
-
-    layout->setLayoutType(ui::LayoutType::HORIZONTAL);
-    ui::Text* text = ui::Text::create(std::to_string(homescore), "fonts/arial.ttf", 40);
-    layout->addChild(text);
-    
-    std::string teams = home;
-    teams += "\n";
-    teams += away;
-
-    text = ui::Text::create(teams, "fonts/arial.ttf", 20);
-    //teamlayout->addChild(text);
-    layout->addChild(text);
-    
-    text = ui::Text::create(std::to_string(awayscore), "fonts/arial.ttf", 40);
-    layout->addChild(text);
-    
-    this->addChild(layout);
-    
-    mScores.emplace_back(layout);
-    
-    return layout;
-} */
 
