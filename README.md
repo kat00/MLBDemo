@@ -3,7 +3,9 @@ MLB Scores demo
 
 # Useage
 left and right arrows move the tiles.
+
 up and down arrows adjust the date.
+
 enter will pop up a details screen.  enter again will close it.
 
 # Viewing code
