@@ -6,8 +6,8 @@
 #include <iostream>
 #include "CJsonQuery.h"
 #include "constants.h"
-#include "TcpConnection.h"
-#include <fstream>
+//#include "TcpConnection.h"
+//#include <fstream>
 #include "include/rapidjson/document.h"
 #include "include/rapidjson/filereadstream.h"
 #include "include/rapidjson/error/en.h"
@@ -108,7 +108,7 @@ void CJsonQuery::SendRequest(int month, int day, int year)
     if( !mDoc.HasParseError() )
     {
         //test output for checking accuracy
-        if( mDoc.IsObject() )
+        /*if( mDoc.IsObject() )
         {
             const Value& date = mDoc["dates"];
             if( date.Size() > 0)
@@ -140,7 +140,7 @@ void CJsonQuery::SendRequest(int month, int day, int year)
             {
                 std::cout << "Mo Games" << std::endl;
             }
-        }
+        }*/
     }
     else
     {

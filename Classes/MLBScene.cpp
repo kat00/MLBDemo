@@ -24,10 +24,10 @@
 
 #include "MLBScene.h"
 #include "SimpleAudioEngine.h"
-#include <thread>
 #include "CJsonQuery.h"
 #include "constants.h"
 #include <ctime>
+#include <string>
 
 const float WIDTH_PAD = 270.0f;
 
@@ -344,14 +344,14 @@ void MLBScene::QueryData()
         
         if(item.away)
         {
-            offsetx += 80;
+            offsetx += 95;
             item.away->setPosition(Vec2(offsetx, offsety));
             this->addChild(item.away);
         }
         
         if(item.awayscore)
         {
-            offsetx += 50;
+            offsetx += 55;
             item.awayscore->setPosition(Vec2(offsetx,offsety));
             this->addChild(item.awayscore);
         }
@@ -398,7 +398,6 @@ void MLBScene::AddGame(ScoreBoard& game, int home, int away, int homescore, int 
     png += ".png";
     game.away = Sprite::create(png, Rect(0, 0, 64, 64));
     
-    game.away->
 }
 
 /*Label* MLBScene::AddGame(const char* home, const char* away, int homescore, int awayscore )
