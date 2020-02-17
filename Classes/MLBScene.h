@@ -29,11 +29,13 @@
 #include "extensions/cocos-ext.h"
 #include "ui/CocosGUI.h"
 #include <vector>
+#include "constants.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
 
-class CJsonQuery;
+class CMLBJson;
+class CImageQuery;
 
 struct ScoreBoard
 {
@@ -86,6 +88,7 @@ private:
     int mCount;
     
     std::vector<ScoreBoard> mScores;
+    std::vector<MLB_GAME*> mGames;
     
     int mMonth;
     int mDay;
@@ -94,7 +97,8 @@ private:
     Size mVisibleSize;
     Vec2 mOrigin;
     
-    CJsonQuery* mQuery;
+    CMLBJson* mQuery;
+    CImageQuery* mImageQuery;
     bool mQueryInProgress;
     
 };

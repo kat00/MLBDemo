@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5087E73D17EB910900C73F5D"
-               BuildableName = "MLB-desktop.app"
-               BlueprintName = "MLB-desktop"
+               BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
+               BuildableName = "MLB-mobile.app"
+               BlueprintName = "MLB-mobile"
                ReferencedContainer = "container:MLB.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -44,9 +44,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5087E73D17EB910900C73F5D"
-            BuildableName = "MLB-desktop.app"
-            BlueprintName = "MLB-desktop"
+            BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
+            BuildableName = "MLB-mobile.app"
+            BlueprintName = "MLB-mobile"
             ReferencedContainer = "container:MLB.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -61,9 +61,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5087E73D17EB910900C73F5D"
-            BuildableName = "MLB-desktop.app"
-            BlueprintName = "MLB-desktop"
+            BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
+            BuildableName = "MLB-mobile.app"
+            BlueprintName = "MLB-mobile"
             ReferencedContainer = "container:MLB.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

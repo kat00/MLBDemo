@@ -11,32 +11,23 @@ class CJsonQuery
 {
 public:
     CJsonQuery();
-    ~CJsonQuery();
+    virtual ~CJsonQuery();
 
-    void SendRequest(int month, int day, int year);
-    int GetAwayTeamID(int game);
-    int GetHomeTeamID(int game);
-    int GetGameCount();
+    void AddData(const char* data, size_t size);
+    const char* Data() const { return m_document_data; }
+    size_t Size() { return m_offset; }
     
-    int GetHomeScore(int game);
-    int GetAwayScore(int game);
+protected:
     
-    int GetHomeWins(int game);
-    int GetHomeLosses(int game);
-    int GetAwayWins(int game);
-    int GetAwayLosses(int game);
+    bool SendQuery(const char* query);
     
-    const char* GetWinner(int game);
-    const char* GetLoser(int game);
-    const char* GetSave(int game);
-    
-    const char* GetUpperLabel(int game);
-    const char* GetLowerLabel(int game);
 
-private:
+protected:
 
     rapidjson::Document mDoc;
-
+    char* m_document_data;
+    size_t m_doc_size;
+    size_t m_offset;
 };
 
 

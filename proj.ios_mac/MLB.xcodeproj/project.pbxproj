@@ -54,6 +54,8 @@
 		636F321523DBF133009B754F /* TcpConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 636F321223DBF133009B754F /* TcpConnection.cpp */; };
 		636F321723DD1FF6009B754F /* libcurl.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 636F321623DD1FF6009B754F /* libcurl.4.dylib */; };
 		636F321823DD1FF6009B754F /* libcurl.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 636F321623DD1FF6009B754F /* libcurl.4.dylib */; };
+		63C0D04323F6ECC20088FE0E /* CImageQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63C0D04023F6ECC20088FE0E /* CImageQuery.cpp */; };
+		63C0D04423F6ECC20088FE0E /* CMLBJson.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63C0D04123F6ECC20088FE0E /* CMLBJson.cpp */; };
 		63DC945923DE678B003DA2A2 /* 115.png in Resources */ = {isa = PBXBuildFile; fileRef = 63DC945823DE678B003DA2A2 /* 115.png */; };
 		63DC945A23DE678B003DA2A2 /* 115.png in Resources */ = {isa = PBXBuildFile; fileRef = 63DC945823DE678B003DA2A2 /* 115.png */; };
 		63DC947723DE6F4C003DA2A2 /* 144.png in Resources */ = {isa = PBXBuildFile; fileRef = 63DC945B23DE6F4A003DA2A2 /* 144.png */; };
@@ -224,6 +226,10 @@
 		636F321223DBF133009B754F /* TcpConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TcpConnection.cpp; sourceTree = "<group>"; };
 		636F321323DBF133009B754F /* CJsonQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJsonQuery.h; sourceTree = "<group>"; };
 		636F321623DD1FF6009B754F /* libcurl.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libcurl.4.dylib; sourceTree = "<group>"; };
+		63C0D03F23F6ECC20088FE0E /* CMLBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMLBJson.h; sourceTree = "<group>"; };
+		63C0D04023F6ECC20088FE0E /* CImageQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CImageQuery.cpp; sourceTree = "<group>"; };
+		63C0D04123F6ECC20088FE0E /* CMLBJson.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CMLBJson.cpp; sourceTree = "<group>"; };
+		63C0D04223F6ECC20088FE0E /* CImageQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CImageQuery.h; sourceTree = "<group>"; };
 		63DC945823DE678B003DA2A2 /* 115.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 115.png; sourceTree = "<group>"; };
 		63DC945B23DE6F4A003DA2A2 /* 144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 144.png; sourceTree = "<group>"; };
 		63DC945C23DE6F4A003DA2A2 /* 108.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 108.png; sourceTree = "<group>"; };
@@ -433,6 +439,10 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				63C0D04023F6ECC20088FE0E /* CImageQuery.cpp */,
+				63C0D04223F6ECC20088FE0E /* CImageQuery.h */,
+				63C0D04123F6ECC20088FE0E /* CMLBJson.cpp */,
+				63C0D03F23F6ECC20088FE0E /* CMLBJson.h */,
 				636F321323DBF133009B754F /* CJsonQuery.h */,
 				636F321223DBF133009B754F /* TcpConnection.cpp */,
 				636F320D23DBF124009B754F /* CJsonQuery.cpp */,
@@ -740,10 +750,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63C0D04323F6ECC20088FE0E /* CImageQuery.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				636F321123DBF124009B754F /* CJsonQuery.cpp in Sources */,
 				46880B8B19C43A87006E1F66 /* MLBScene.cpp in Sources */,
+				63C0D04423F6ECC20088FE0E /* CMLBJson.cpp in Sources */,
 				636F320F23DBF124009B754F /* constants.cpp in Sources */,
 				636F321523DBF133009B754F /* TcpConnection.cpp in Sources */,
 			);
@@ -946,6 +958,7 @@
 				"OTHER_LDFLAGS[arch=*]" = libcurl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
 		};
@@ -973,6 +986,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;

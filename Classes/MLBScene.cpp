@@ -24,10 +24,11 @@
 
 #include "MLBScene.h"
 #include "SimpleAudioEngine.h"
-#include "CJsonQuery.h"
+#include "CMLBJson.h"
 #include "constants.h"
 #include <ctime>
 #include <string>
+#include "CImageQuery.h"
 
 const float WIDTH_PAD = 270.0f;
 
@@ -44,6 +45,9 @@ MLBScene::~MLBScene()
     {
         delete mQuery;
     }
+    
+    if( mImageQuery )
+        delete mImageQuery;
     
     Clear();
 }
@@ -95,6 +99,7 @@ bool MLBScene::init()
     //mDay = lt->tm_mday;
     
     mQuery = 0;
+    mImageQuery = 0;
     QueryData();
     
     return true;
@@ -132,8 +137,15 @@ void MLBScene::UpdateLabels()
         return;
     }
     
-    mUpperLabel->setString(mQuery->GetUpperLabel(mItem));
-    mLowerLabel->setString(mQuery->GetLowerLabel(mItem));
+    if(mGames[mItem]->postponed)
+    {
+        mUpperLabel->setString("Game Postponed");
+        mLowerLabel->setString("");
+        return;
+    }
+    
+    mUpperLabel->setString(mGames[mItem]->upperlabel);
+    mLowerLabel->setString(mGames[mItem]->lowerlabel);
 }
 
 void MLBScene::SetDate()
@@ -149,10 +161,6 @@ void MLBScene::SetDate()
 void MLBScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 {
     log("Key with keycode %d pressed", keyCode);
-    
-    //throttle input if query is in progress since we deleted the pointer
-    if( mQueryInProgress )
-        return;
     
     switch(keyCode)
     {
@@ -244,7 +252,7 @@ void MLBScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 
 void MLBScene::MoveItems(float value)
 {
-    for(auto item : mScores)
+    for(auto& item : mScores)
     {
         if( item.homescore )
         {
@@ -285,14 +293,26 @@ void MLBScene::QueryData()
     
     mQueryInProgress = true;
     
-    mQuery = new CJsonQuery();
+    mQuery = new CMLBJson();
     mQuery->SendRequest(mMonth, mDay, mYear);
     
     SetDate();
     
+    if( !mGames.empty() )
+    {
+        for(auto* item : mGames)
+        {
+            delete item;
+        }
+        
+        mGames.clear();
+    }
+    
+    mQuery->GetGames(mGames);
+    
     //data is loaded so add elements
-    mCount = mQuery->GetGameCount();
-    if( mCount <= 0 )
+    mCount = (int)mGames.size();
+    if( mCount == 0 )
     {
         NoGames();
         return;
@@ -306,8 +326,10 @@ void MLBScene::QueryData()
         float offsetx = mVisibleSize.width / 2 + mOrigin.x + ( x * WIDTH_PAD) - 90;
         float offsety = mVisibleSize.height/2 + mOrigin.y;
         
+        MLB_GAME* game = mGames[x];
+        
         ScoreBoard item;
-        AddGame(item, mQuery->GetHomeTeamID(x), mQuery->GetAwayTeamID(x), mQuery->GetHomeScore(x), mQuery->GetAwayScore(x));
+        AddGame(item, game->hometeam, game->awayteam, game->homescore, game->awayscore);
         
         //home score label
         if( item.homescore )
@@ -415,7 +437,7 @@ void MLBScene::NoGames()
 
 void MLBScene::Clear()
 {
-    for(auto iter : mScores)
+    for(auto& iter : mScores)
     {
         if(iter.away)
             this->removeChild(iter.away);
@@ -440,10 +462,24 @@ void MLBScene::CloseInfoScreen()
         this->removeChildByTag(50, true);
         mView = 0;
     }
+    
+    if( mImageQuery )
+    {
+        delete mImageQuery;
+        mImageQuery = 0;
+    }
 }
 
 void MLBScene::ShowInfoScreen()
 {
+    //download image to buffer
+    if( mImageQuery )
+        delete mImageQuery;
+    
+    mImageQuery = new CImageQuery();
+    mImageQuery->GetImage(mGames[mItem]->photo.c_str());
+
+    
     mView = ui::Layout::create();
     mView->setLayoutType( ui::Layout::Type::VERTICAL );
     mView->setSizeType( ui::Widget::SizeType::ABSOLUTE );
@@ -456,48 +492,68 @@ void MLBScene::ShowInfoScreen()
     mView->setTag(50);
     mView->setContentSize(Size(mVisibleSize.width * .5, mVisibleSize.height * .5));
     
-    std::string labelstring = TeamNameFromID(mQuery->GetHomeTeamID(mItem));
+    MLB_GAME* game = mGames[mItem];
+    
+    std::string labelstring = TeamNameFromID(game->hometeam);
     labelstring += "(";
-    labelstring += std::to_string(mQuery->GetHomeWins(mItem));
+    labelstring += std::to_string(game->homewins);
     labelstring += "-";
-    labelstring += std::to_string(mQuery->GetHomeLosses(mItem));
+    labelstring += std::to_string(game->homelosses);
     labelstring += ")    ";
-    labelstring += std::to_string(mQuery->GetHomeScore(mItem));
+    labelstring += std::to_string(game->homescore);
     labelstring += "\n";
     
-    labelstring += TeamNameFromID(mQuery->GetAwayTeamID(mItem));
+    labelstring += TeamNameFromID(game->awayteam);
     labelstring += "(";
-    labelstring += std::to_string(mQuery->GetAwayWins(mItem));
+    labelstring += std::to_string(game->awaywins);
     labelstring += "-";
-    labelstring += std::to_string(mQuery->GetAwayLosses(mItem));
+    labelstring += std::to_string(game->awaylosses);
     labelstring += ")    ";
-    labelstring += std::to_string(mQuery->GetAwayScore(mItem));
+    labelstring += std::to_string(game->awayscore);
     labelstring += "\n\n";
     
     //pitcher stuff
     labelstring += "Winning Pitcher: ";
-    labelstring += mQuery->GetWinner(mItem);
+    labelstring += game->winner;
     labelstring += "\n";
     
     labelstring += "Losing Pitcher: ";
-    labelstring += mQuery->GetLoser(mItem);
+    labelstring += game->loser;
     labelstring += "\n";
     
-    const char* save = mQuery->GetSave(mItem);
-    if( save )
+    if( !game->save.empty() )
     {
         labelstring += "Save: ";
-        labelstring += save;
+        labelstring += game->save;
         labelstring += "\n";
     }
     
-    labelstring += mQuery->GetUpperLabel(mItem);
+    labelstring += game->upperlabel;
     labelstring += "\n";
-    labelstring += mQuery->GetLowerLabel(mItem);
+    labelstring += game->lowerlabel;
     
     Label* labeltext = Label::create(labelstring, "fonts/arial.ttf", 30);
     labeltext->setPosition( Vec2( mVisibleSize.width * 0.25, mVisibleSize.height * .25) );
     mView->addChild(labeltext);
+    
+    
+    //set data to a texture
+    Image* img = new Image();
+    img->initWithImageData((const unsigned char*)mImageQuery->Data(), mImageQuery->Size());
+    img->autorelease();
+    
+    Texture2D* tex = new Texture2D();
+    tex->initWithImage(img);
+    tex->autorelease();
+
+    Sprite* sprite = new Sprite();
+    sprite->initWithTexture(tex);
+    sprite->setPosition( Vec2( mVisibleSize.width * 0.38,  mVisibleSize.height * .39) );
+    sprite->autorelease();
+    
+    mView->addChild(sprite);
+    
+    
     
     this->addChild(mView);
 }

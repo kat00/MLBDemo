@@ -5,6 +5,33 @@
 #ifndef DISNEYPROTO_CONSTANTS_H
 #define DISNEYPROTO_CONSTANTS_H
 
+struct MLB_GAME
+{
+    int hometeam;
+    int awayteam;
+    
+    int homescore;
+    int awayscore;
+    
+    int homewins;
+    int homelosses;
+    
+    int awaywins;
+    int awaylosses;
+    
+    std::string winner;
+    std::string save;
+    std::string loser;
+    
+    std::string upperlabel;
+    std::string lowerlabel;
+    
+    std::string photo;
+    
+    bool postponed;
+    
+};
+
 static const char* HTTP_GET_HEADER =
         "GET %s HTTP/1.1\r\n"      // path
         "Host: %s\r\n"             // host
