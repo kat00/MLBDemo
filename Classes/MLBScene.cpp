@@ -41,6 +41,16 @@ Scene* MLBScene::createScene()
 
 MLBScene::~MLBScene()
 {
+    if( !mGames.empty() )
+    {
+        for(auto* item : mGames)
+        {
+            delete item;
+        }
+        
+        mGames.clear();
+    }
+    
     if( mQuery )
     {
         delete mQuery;
